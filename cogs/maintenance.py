@@ -5,6 +5,16 @@ from discord import app_commands
 from discord.ext import commands
 from typing import List
 
+class LogEmbed(discord.Embed):
+    def __init__(self, action: str, description: str, success: bool, requestedBy: discord.User | discord.Member):
+        super().__init__(
+            title=action,
+            description=description,
+            color=discord.Color.green() if success else discord.Color.red()
+        )
+
+        self.add_field(name="Requested by", value=requestedBy.mention, inline=True)
+
 class Maintenance(CustomCog):
     def __init__(self, bot: SosnowiecBot):
         super().__init__(bot)
@@ -17,6 +27,36 @@ class Maintenance(CustomCog):
         ]
 
         return choices[:25]
+
+    @app_commands.command(name="delete_messages")
+    async def delete_messages(self, interaction: discord.Interaction, channel: discord.TextChannel, count: int):
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        messages = [message async for message in channel.history(limit=count)]
+        
+        try:
+            if len(messages) <= 100:
+                await channel.delete_messages(messages)
+            else:
+                for message in messages:
+                    await message.delete()
+        
+            embed = LogEmbed(
+                action=f"🗑️ Usunięcie {len(messages)} wiadomości!",
+                description=f"Usunięto {len(messages)} wiadomości na kanale {channel.mention}",
+                requestedBy=interaction.user,
+                success=True
+            )
+            await interaction.followup.send(f"Usunięto {len(messages)} wiadomości!")
+            await self.log_channel.send(embed=embed)
+        except Exception as e:
+            print(e)
+            embed = LogEmbed(
+                action=f"🗑️ Usunięcie {len(messages)} wiadomości na kanale {channel.mention}!",
+                description=f"Błąd: {e}",
+                requestedBy=interaction.user,
+                success=False
+            )
+            await self.log_channel.send(embed=embed)
 
     @app_commands.command(name="reload_module")
     @app_commands.autocomplete(module=module_autocomplete)
@@ -32,12 +72,12 @@ class Maintenance(CustomCog):
             await interaction.followup.send(f"Reloaded {module}!", ephemeral=True)
             
             if not silent:
-                embed = discord.Embed(
-                    title="🔄 Module Reloaded",
+                embed = LogEmbed(
+                    action="🔄 Module Reloaded",
                     description=f"The extension {module} was successfully reloaded.",
-                    color=discord.Color.green()
+                    success=True,
+                    requestedBy=interaction.user
                 )
-                embed.add_field(name="Requested By", value=interaction.user.mention, inline=False)
                 await self.log_channel.send(embed=embed)
         except Exception as e:
             await interaction.followup.send(f"Failed to reload '{module}'. Error: {e}", ephemeral=True)
