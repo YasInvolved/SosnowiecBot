@@ -18,6 +18,10 @@ class SosnowiecBot(commands.Bot):
             help_command=commands.DefaultHelpCommand()
         )
 
+    @property
+    def guild(self) -> discord.Guild:
+        return self.get_guild(self.config.guild_id)
+    
     async def on_ready(self):
         print(f"Logged in as {self.user.name} (ID: {self.user.id})")
 

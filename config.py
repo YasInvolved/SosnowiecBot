@@ -18,3 +18,19 @@ class Config:
     log_channel_id: int = field(
         default_factory=lambda: int(CONFIG.get("LOG_CHANNEL_ID"))
     )
+
+    welcome_channel_id: int = field(
+        default_factory=lambda: int(CONFIG.get("WELCOME_CHANNEL_ID"))
+    )
+
+    rules_channel_id: int = field(
+        default_factory=lambda: int(CONFIG.get("RULES_CHANNEL_ID"))
+    )
+
+    unverified_role_id: int = field(
+        default_factory=lambda: int(CONFIG.get("UNVERIFIED_ROLE_ID"))
+    )
+
+    verified_role_id: int = field(
+        default_factory=lambda: int(CONFIG.get("VERIFIED_ROLE_ID"))
+    )    
