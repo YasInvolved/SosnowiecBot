@@ -15,6 +15,7 @@ class LogEmbed(discord.Embed):
 
         self.add_field(name="Requested by", value=requestedBy.mention, inline=True)
 
+@app_commands.checks.has_permissions(administrator=True)
 class Maintenance(CustomCog):
     def __init__(self, bot: SosnowiecBot):
         super().__init__(bot)
