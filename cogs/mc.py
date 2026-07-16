@@ -16,9 +16,9 @@ class Minecraft(CustomCog):
         )
 
         try:
+            embed.add_field(name="Nazwa", value=nazwa, inline=False)
             embed.add_field(name="X", value=str(x), inline=True)
             embed.add_field(name="Y", value=str(y), inline=True)
-            embed.add_field(name="Nazwa", value=nazwa, inline=False)
             embed.add_field(name="Rozmiar X", value=str(rozmiar_x), inline=True)
             embed.add_field(name="Rozmiar Y", value=str(rozmiar_y), inline=True)
             embed.add_field(name="Właściciel", value=f"{interaction.user.mention}", inline=False)
