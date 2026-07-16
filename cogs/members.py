@@ -1,28 +1,11 @@
 import discord
+from custom_cog import CustomCog
 from bot import SosnowiecBot
 from discord.ext import commands
 
-class Members(commands.Cog):
+class Members(CustomCog):
     def __init__(self, bot: SosnowiecBot):
-        self.bot = bot
-        self.config = self.bot.config
-        self.guild = self.bot.guild
-    
-    @property
-    def unverified_role(self):
-        return self.guild.get_role(self.config.unverified_role_id)
-
-    @property
-    def verified_role(self):
-        return self.guild.get_role(self.config.verified_role_id)
-
-    @property
-    def welcome_channel(self):
-        return self.guild.get_channel(self.config.welcome_channel_id)
-
-    @property
-    def rules_channel(self):
-        return self.guild.get_channel(self.config.rules_channel_id)
+        super().__init__(bot)
 
     @commands.Cog.listener(name='on_member_join')
     async def on_member_join(self, member: discord.Member):
@@ -34,7 +17,11 @@ class Members(commands.Cog):
             color=discord.Color.green()
         )
         embed.add_field(name="Regulamin", value=f"{self.rules_channel.mention}", inline=True)
-        await self.welcome_channel.send(embed=embed)
+
+        try:
+            await self.welcome_channel.send(embed=embed)
+        except Exception as e:
+            print(f"Exception (on_member_join): {e}")
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Members(bot))
