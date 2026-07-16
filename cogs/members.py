@@ -24,7 +24,7 @@ class Members(commands.Cog):
     def rules_channel(self):
         return self.guild.get_channel(self.config.rules_channel_id)
 
-    @commands.Cog.listener()
+    @commands.Cog.listener(name='on_member_join')
     async def on_member_join(self, member: discord.Member):
         await member.add_roles(self.unverified_role)
         
