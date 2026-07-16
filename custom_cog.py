@@ -1,4 +1,5 @@
 import discord
+import os
 from discord.ext import commands
 from bot import SosnowiecBot
 
@@ -6,7 +7,11 @@ class CustomCog(commands.Cog):
     def __init__(self, bot: SosnowiecBot):
         self.bot = bot
         self.config = self.bot.config
-        
+        self.content_dir = os.path.join(os.path.curdir, "content")
+    
+    def get_content_filename(self, relpath: str) -> str:
+        return os.path.join(self.content_dir, relpath)
+
     @property
     def guild(self) -> discord.Guild:
         return self.bot.get_guild(self.config.guild_id)
