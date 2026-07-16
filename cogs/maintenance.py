@@ -2,6 +2,7 @@ import discord
 from bot import SosnowiecBot
 from discord import app_commands
 from discord.ext import commands
+from typing import List
 
 class Maintenance(commands.Cog):
     def __init__(self, bot: SosnowiecBot):
@@ -20,11 +21,17 @@ class Maintenance(commands.Cog):
     def log_channel(self) -> discord.TextChannel:
         return self.bot.get_channel(self.bot.config.log_channel_id)
 
-    @app_commands.command(name="hello")
-    async def hello(self, interaction: discord.Interaction):
-        await interaction.response.send_message("Hello")
+    async def module_autocomplete(self, interaction: discord.Interaction, current: str) -> List[app_commands.Choice[str]]:
+        loaded_extensions = list(self.bot.extensions.keys())
+        choices = [
+            app_commands.Choice(name=ext, value=ext)
+            for ext in loaded_extensions if current.lower() in ext.lower()
+        ]
+
+        return choices[:25]
 
     @app_commands.command(name="reload_module")
+    @app_commands.autocomplete(module=module_autocomplete)
     async def reload_module(self, interaction: discord.Interaction, module: str):
         name = f"cogs.{module}"
         if name not in self.bot.extensions:
