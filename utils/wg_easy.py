@@ -1,7 +1,7 @@
 import aiohttp
 import io
 from dotenv import dotenv_values
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any, Optional
 
 _CONFIG = dotenv_values(".env")
 
