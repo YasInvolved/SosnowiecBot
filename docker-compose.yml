@@ -1,0 +1,6 @@
+services:
+  discord-bot:
+    build: 
+      context: .
+    container_name: sosnowiec_bot
+    restart: unless-stopped
