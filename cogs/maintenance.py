@@ -70,6 +70,7 @@ class Maintenance(CustomCog):
 
         try:
             await self.bot.reload_extension(module)
+            await self.bot.sync_tree()
             await interaction.followup.send(f"Reloaded {module}!", ephemeral=True)
             
             if not silent:

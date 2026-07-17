@@ -25,6 +25,12 @@ class SosnowiecBot(commands.Bot):
     async def on_ready(self):
         print(f"Logged in as {self.user.name} (ID: {self.user.id})")
 
+    async def sync_tree(self):
+        guild_id = discord.Object(id=self.config.guild_id)
+        self.tree.copy_global_to(guild=guild_id)
+        synced = await self.tree.sync(guild=guild_id)
+        print(f"Synced {len(synced)} command(s) to the server.")
+
     async def setup_hook(self):
         for path in os.listdir("./cogs"):
             filename, ext = os.path.splitext(os.path.basename(path))
@@ -40,8 +46,6 @@ class SosnowiecBot(commands.Bot):
         guild_id = discord.Object(id=self.config.guild_id)
 
         try:
-            self.tree.copy_global_to(guild=guild_id)
-            synced = await self.tree.sync(guild=guild_id)
-            print(f"Synced {len(synced)} command(s) to the server.")
+            await self.sync_tree()
         except Exception as e:
             print(f"Failed to sync commands: {e}")
