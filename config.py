@@ -5,8 +5,6 @@ CONFIG = dotenv_values(".env")
 
 @dataclass
 class Config:
-    _env = dotenv_values(".env")
-
     token: str = field(
         default_factory=lambda: CONFIG.get("TOKEN")
     )
@@ -37,4 +35,8 @@ class Config:
 
     verified_role_id: int = field(
         default_factory=lambda: 1527114285711360141
-    )    
+    )
+
+    vpn_role_id: int = field(
+        default_factory=lambda: 1527695916394348644
+    )

@@ -1,6 +1,7 @@
 import discord
 import random
 import os
+from utils.wg_easy import WgEasyAdapter
 from discord.ext import commands
 from config import Config
 
@@ -11,6 +12,7 @@ class SosnowiecBot(commands.Bot):
         intents.guilds = True
 
         self.config = Config()
+        self.wg_easy = WgEasyAdapter()
 
         super().__init__(
             command_prefix=f"{random.randbytes(128)}",
@@ -42,8 +44,6 @@ class SosnowiecBot(commands.Bot):
                 print(f"Loaded module: {module_name}")
             except Exception as e:
                 print(f"Failed to load {module_name}: {e}")
-
-        guild_id = discord.Object(id=self.config.guild_id)
 
         try:
             await self.sync_tree()
