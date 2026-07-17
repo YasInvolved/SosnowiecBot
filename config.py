@@ -10,33 +10,33 @@ class Config:
     )
 
     guild_id: int = field(
-        default_factory=lambda: 1527063956407976087
+        default_factory=lambda: int(CONFIG.get("GUILD_ID"))
     )
 
     log_channel_id: int = field(
-        default_factory=lambda: 1527096735497719948
+        default_factory=lambda: int(CONFIG.get("LOG_CHANNEL_ID"))
     )
 
     welcome_channel_id: int = field(
-        default_factory=lambda: 1527114378749677608
+        default_factory=lambda: int(CONFIG.get("WELCOME_CHANNEL_ID"))
     )
 
     rules_channel_id: int = field(
-        default_factory=lambda: 1527103007794266263
+        default_factory=lambda: int(CONFIG.get("RULES_CHANNEL_ID"))
     )
 
     plots_channel_id: int = field(
-        default_factory=lambda: 1527095655527350342
+        default_factory=lambda: int(CONFIG.get("PLOTS_CHANNEL_ID"))
     )
 
     unverified_role_id: int = field(
-        default_factory=lambda: 1527071987917389894
+        default_factory=lambda: int(CONFIG.get("UNVERIFIED_ROLE_ID"))
     )
 
     verified_role_id: int = field(
-        default_factory=lambda: 1527114285711360141
+        default_factory=lambda: int(CONFIG.get("VERIFIED_ROLE_ID"))
     )
 
     vpn_role_id: int = field(
-        default_factory=lambda: 1527695916394348644
+        default_factory=lambda: int(CONFIG.get("VPN_ROLE_ID"))
     )
