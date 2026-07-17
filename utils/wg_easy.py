@@ -1,15 +1,16 @@
 import aiohttp
 import io
-from dotenv import dotenv_values
+import os
 from typing import Dict, Any, Optional
+from dotenv import load_dotenv
 
-_CONFIG = dotenv_values()
+load_dotenv()
 
 class WgEasyAdapter:
     def __init__(self):
-        self.base_url: str = _CONFIG.get("WG_EASY_URL")
-        self.username: str = _CONFIG.get("WG_EASY_USERNAME")
-        self.password: str = _CONFIG.get("WG_EASY_PASSWORD")
+        self.base_url: str = os.environ.get("WG_EASY_URL")
+        self.username: str = os.environ.get("WG_EASY_USERNAME")
+        self.password: str = os.environ.get("WG_EASY_PASSWORD")
 
         self._session: Optional[aiohttp.ClientSession] = None
     
