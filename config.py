@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from dotenv import dotenv_values
 
-CONFIG = dotenv_values(".env")
+CONFIG = dotenv_values()
 
 @dataclass
 class Config:

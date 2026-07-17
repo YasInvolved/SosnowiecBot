@@ -3,7 +3,7 @@ import io
 from dotenv import dotenv_values
 from typing import Dict, Any, Optional
 
-_CONFIG = dotenv_values(".env")
+_CONFIG = dotenv_values()
 
 class WgEasyAdapter:
     def __init__(self):
